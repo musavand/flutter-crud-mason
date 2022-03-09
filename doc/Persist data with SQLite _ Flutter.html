@@ -1,0 +1,1916 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)https://docs.flutter.dev/cookbook/persistence/sqlite -->
+<html lang="en" class="fontawesome-i2svg-active fontawesome-i2svg-complete"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>Persist data with SQLite | Flutter</title>
+    <style type="text/css">svg:not(:root).svg-inline--fa{overflow:visible}.svg-inline--fa{display:inline-block;font-size:inherit;height:1em;overflow:visible;vertical-align:-.125em}.svg-inline--fa.fa-lg{vertical-align:-.225em}.svg-inline--fa.fa-w-1{width:.0625em}.svg-inline--fa.fa-w-2{width:.125em}.svg-inline--fa.fa-w-3{width:.1875em}.svg-inline--fa.fa-w-4{width:.25em}.svg-inline--fa.fa-w-5{width:.3125em}.svg-inline--fa.fa-w-6{width:.375em}.svg-inline--fa.fa-w-7{width:.4375em}.svg-inline--fa.fa-w-8{width:.5em}.svg-inline--fa.fa-w-9{width:.5625em}.svg-inline--fa.fa-w-10{width:.625em}.svg-inline--fa.fa-w-11{width:.6875em}.svg-inline--fa.fa-w-12{width:.75em}.svg-inline--fa.fa-w-13{width:.8125em}.svg-inline--fa.fa-w-14{width:.875em}.svg-inline--fa.fa-w-15{width:.9375em}.svg-inline--fa.fa-w-16{width:1em}.svg-inline--fa.fa-w-17{width:1.0625em}.svg-inline--fa.fa-w-18{width:1.125em}.svg-inline--fa.fa-w-19{width:1.1875em}.svg-inline--fa.fa-w-20{width:1.25em}.svg-inline--fa.fa-pull-left{margin-right:.3em;width:auto}.svg-inline--fa.fa-pull-right{margin-left:.3em;width:auto}.svg-inline--fa.fa-border{height:1.5em}.svg-inline--fa.fa-li{width:2em}.svg-inline--fa.fa-fw{width:1.25em}.fa-layers svg.svg-inline--fa{bottom:0;left:0;margin:auto;position:absolute;right:0;top:0}.fa-layers{display:inline-block;height:1em;position:relative;text-align:center;vertical-align:-.125em;width:1em}.fa-layers svg.svg-inline--fa{-webkit-transform-origin:center center;transform-origin:center center}.fa-layers-counter,.fa-layers-text{display:inline-block;position:absolute;text-align:center}.fa-layers-text{left:50%;top:50%;-webkit-transform:translate(-50%,-50%);transform:translate(-50%,-50%);-webkit-transform-origin:center center;transform-origin:center center}.fa-layers-counter{background-color:#ff253a;border-radius:1em;-webkit-box-sizing:border-box;box-sizing:border-box;color:#fff;height:1.5em;line-height:1;max-width:5em;min-width:1.5em;overflow:hidden;padding:.25em;right:0;text-overflow:ellipsis;top:0;-webkit-transform:scale(.25);transform:scale(.25);-webkit-transform-origin:top right;transform-origin:top right}.fa-layers-bottom-right{bottom:0;right:0;top:auto;-webkit-transform:scale(.25);transform:scale(.25);-webkit-transform-origin:bottom right;transform-origin:bottom right}.fa-layers-bottom-left{bottom:0;left:0;right:auto;top:auto;-webkit-transform:scale(.25);transform:scale(.25);-webkit-transform-origin:bottom left;transform-origin:bottom left}.fa-layers-top-right{right:0;top:0;-webkit-transform:scale(.25);transform:scale(.25);-webkit-transform-origin:top right;transform-origin:top right}.fa-layers-top-left{left:0;right:auto;top:0;-webkit-transform:scale(.25);transform:scale(.25);-webkit-transform-origin:top left;transform-origin:top left}.fa-lg{font-size:1.3333333333em;line-height:.75em;vertical-align:-.0667em}.fa-xs{font-size:.75em}.fa-sm{font-size:.875em}.fa-1x{font-size:1em}.fa-2x{font-size:2em}.fa-3x{font-size:3em}.fa-4x{font-size:4em}.fa-5x{font-size:5em}.fa-6x{font-size:6em}.fa-7x{font-size:7em}.fa-8x{font-size:8em}.fa-9x{font-size:9em}.fa-10x{font-size:10em}.fa-fw{text-align:center;width:1.25em}.fa-ul{list-style-type:none;margin-left:2.5em;padding-left:0}.fa-ul>li{position:relative}.fa-li{left:-2em;position:absolute;text-align:center;width:2em;line-height:inherit}.fa-border{border:solid .08em #eee;border-radius:.1em;padding:.2em .25em .15em}.fa-pull-left{float:left}.fa-pull-right{float:right}.fa.fa-pull-left,.fab.fa-pull-left,.fal.fa-pull-left,.far.fa-pull-left,.fas.fa-pull-left{margin-right:.3em}.fa.fa-pull-right,.fab.fa-pull-right,.fal.fa-pull-right,.far.fa-pull-right,.fas.fa-pull-right{margin-left:.3em}.fa-spin{-webkit-animation:fa-spin 2s infinite linear;animation:fa-spin 2s infinite linear}.fa-pulse{-webkit-animation:fa-spin 1s infinite steps(8);animation:fa-spin 1s infinite steps(8)}@-webkit-keyframes fa-spin{0%{-webkit-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes fa-spin{0%{-webkit-transform:rotate(0);transform:rotate(0)}100%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}.fa-rotate-90{-webkit-transform:rotate(90deg);transform:rotate(90deg)}.fa-rotate-180{-webkit-transform:rotate(180deg);transform:rotate(180deg)}.fa-rotate-270{-webkit-transform:rotate(270deg);transform:rotate(270deg)}.fa-flip-horizontal{-webkit-transform:scale(-1,1);transform:scale(-1,1)}.fa-flip-vertical{-webkit-transform:scale(1,-1);transform:scale(1,-1)}.fa-flip-both,.fa-flip-horizontal.fa-flip-vertical{-webkit-transform:scale(-1,-1);transform:scale(-1,-1)}:root .fa-flip-both,:root .fa-flip-horizontal,:root .fa-flip-vertical,:root .fa-rotate-180,:root .fa-rotate-270,:root .fa-rotate-90{-webkit-filter:none;filter:none}.fa-stack{display:inline-block;height:2em;position:relative;width:2.5em}.fa-stack-1x,.fa-stack-2x{bottom:0;left:0;margin:auto;position:absolute;right:0;top:0}.svg-inline--fa.fa-stack-1x{height:1em;width:1.25em}.svg-inline--fa.fa-stack-2x{height:2em;width:2.5em}.fa-inverse{color:#fff}.sr-only{border:0;clip:rect(0,0,0,0);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px}.sr-only-focusable:active,.sr-only-focusable:focus{clip:auto;height:auto;margin:0;overflow:visible;position:static;width:auto}.svg-inline--fa .fa-primary{fill:var(--fa-primary-color,currentColor);opacity:1;opacity:var(--fa-primary-opacity,1)}.svg-inline--fa .fa-secondary{fill:var(--fa-secondary-color,currentColor);opacity:.4;opacity:var(--fa-secondary-opacity,.4)}.svg-inline--fa.fa-swap-opacity .fa-primary{opacity:.4;opacity:var(--fa-secondary-opacity,.4)}.svg-inline--fa.fa-swap-opacity .fa-secondary{opacity:1;opacity:var(--fa-primary-opacity,1)}.svg-inline--fa mask .fa-primary,.svg-inline--fa mask .fa-secondary{fill:#000}.fad.fa-inverse{color:#fff}</style><link rel="icon" href="https://docs.flutter.dev/assets/images/shared/brand/flutter/icon/64.png">
+    <link rel="apple-touch-icon" href="https://docs.flutter.dev/assets/images/shared/brand/flutter/logo/flutter-logomark-320px.png">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#ffffff">
+
+    
+      <meta name="google-site-verification" content="HFqxhSbf9YA_0rBglNLzDiWnrHiK_w4cqDh2YD2GEY4">
+      <script async="" src="./Persist data with SQLite _ Flutter_files/analytics.js.download"></script><script async="" src="./Persist data with SQLite _ Flutter_files/gtm.js.download"></script><script>
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-ND4LWWZ');
+      </script>
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-67589403-1', 'auto');
+        ga('send', 'pageview');
+      </script>
+    
+
+    
+    
+
+    <meta name="description" content="How to use SQLite to store and retrieve data.">
+    <meta name="keywords" content="">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@flutterdev">
+
+    <meta property="og:title" content="Persist data with SQLite">
+    <meta property="og:url" content="https://docs.flutter.dev/cookbook/persistence/sqlite">
+    <meta property="og:description" content="How to use SQLite to store and retrieve data.">
+    <meta property="og:image" content="">
+
+    
+      <link href="./Persist data with SQLite _ Flutter_files/css" rel="stylesheet">
+      <link href="./Persist data with SQLite _ Flutter_files/css(1)" rel="stylesheet">
+      <link href="./Persist data with SQLite _ Flutter_files/css(2)" rel="stylesheet">
+      <link href="./Persist data with SQLite _ Flutter_files/css(3)" rel="stylesheet">
+      <script src="./Persist data with SQLite _ Flutter_files/all.js.download" data-auto-replace-svg="nest">
+      </script>
+    
+
+    
+ 
+    <script>
+      window.__CALLBACKS = [];
+    </script>
+
+    <link rel="stylesheet" href="./Persist data with SQLite _ Flutter_files/main.css">
+    
+
+  </head>
+  <body>
+  
+    
+      <noscript>
+        <iframe 
+          src="https://www.googletagmanager.com/ns.html?id=GTM-ND4LWWZ"
+          height="0" width="0" style="display:none;visibility:hidden">
+        </iframe>
+      </noscript>
+    
+    
+    <div id="overlay-under-drawer"></div>
+
+    
+
+<header class="site-header">
+  <nav class="navbar navbar-expand-md justify-content-start justify-content-md-between">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="material-icons">menu</i>
+    </button>
+
+    <a class="navbar-brand" href="https://flutter.dev/">
+      <img src="./Persist data with SQLite _ Flutter_files/flutter-lockup.png" alt="Flutter logo" height="37" width="129" class="align-middle">
+    </a>
+
+    <div id="navbarSupportedContent" class="collapse navbar-collapse flex-grow-0">
+      <div class="site-header__sheet-bg" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      </div>
+      <div class="site-header__sheet">
+        <ul class="navbar-nav">
+          <div class="site-sidebar site-sidebar--header d-md-none">
+            <ul class="nav flex-column"><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="https://docs.flutter.dev/cookbook/persistence/sqlite#sidenav-1" role="button" aria-expanded="false" aria-controls="sidenav-1">Get started</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-1">
+        <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/get-started/install">1. Install</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/get-started/editor">2. Set up an editor</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/get-started/test-drive">3. Test drive</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/get-started/codelab">4. Write your first app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/get-started/learn-more">5. Learn more</a>
+  </li><div class="dropdown-divider"></div><li class="nav-item">
+    <a class="nav-link collapsable" data-toggle="collapse" data-target="#sidenav-1-7" href="https://docs.flutter.dev/cookbook/persistence/sqlite#sidenav-1-7" role="button" aria-expanded="true" aria-controls="sidenav-1-7">From another platform?
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-1-7">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/get-started/flutter-for/android-devs">Flutter for Android devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/get-started/flutter-for/ios-devs">Flutter for iOS devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/get-started/flutter-for/react-native-devs">Flutter for React Native devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/get-started/flutter-for/web-devs">Flutter for web devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/get-started/flutter-for/xamarin-forms-devs">Flutter for Xamarin.Forms devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/get-started/flutter-for/declarative">Introduction to declarative UI</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/overview" target="_blank" rel="noopener">Dart language overview<span class="material-icons md-24">
+        open_in_new
+      </span></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/get-started/web">Building a web app</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link active" data-toggle="collapse" href="https://docs.flutter.dev/cookbook/persistence/sqlite#sidenav-2" role="button" aria-expanded="true" aria-controls="sidenav-2">Samples &amp; tutorials</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-2">
+        <li class="nav-item">
+    <a class="nav-link" href="https://gallery.flutter.dev/" target="_blank" rel="noopener">Flutter Gallery [running app]<span class="material-icons md-24">
+        open_in_new
+      </span></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://github.com/flutter/gallery" target="_blank" rel="noopener">Flutter Gallery [repo]<span class="material-icons md-24">
+        open_in_new
+      </span></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://flutter.github.io/samples/" target="_blank" rel="noopener">Sample apps on GitHub<span class="material-icons md-24">
+        open_in_new
+      </span></a>
+  </li><li class="nav-item">
+    <a class="nav-link active" href="https://docs.flutter.dev/cookbook">Cookbook</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/codelabs">Codelabs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/reference/tutorials">Tutorials</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link " data-toggle="collapse" href="https://docs.flutter.dev/cookbook/persistence/sqlite#sidenav-3" role="button" aria-expanded="true" aria-controls="sidenav-3">Development</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-3">
+        <li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-1" href="https://docs.flutter.dev/development/ui" role="button" aria-expanded="false" aria-controls="sidenav-3-1">User interface
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/widgets-intro">Introduction to widgets</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-1-2" href="https://docs.flutter.dev/development/ui/layout" role="button" aria-expanded="false" aria-controls="sidenav-3-1-2">Building layouts
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-2">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/layout">Layouts in Flutter</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/layout/tutorial">Tutorial</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/layout/adaptive-responsive">Creating adaptive and responsive apps</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/layout/building-adaptive-apps">Building adaptive apps</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/layout/constraints">Understanding constraints</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/layout/box-constraints">Box constraints</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/interactive">Adding interactivity</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/assets-and-images">Assets and images</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-1-5" href="https://docs.flutter.dev/development/ui/navigation" role="button" aria-expanded="false" aria-controls="sidenav-3-1-5">Navigation &amp; routing
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-5">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/navigation">Navigation in Flutter</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/navigation/deep-linking">Deep linking</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/navigation/url-strategies">URL strategies</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-1-6" href="https://docs.flutter.dev/development/ui/animations" role="button" aria-expanded="false" aria-controls="sidenav-3-1-6">Animations
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-6">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/animations">Introduction</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/animations/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/animations/tutorial">Tutorial</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/animations/implicit-animations">Implicit animations</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/animations/hero-animations">Hero animations</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/animations/staggered-animations">Staggered animations</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-1-7" href="https://docs.flutter.dev/development/ui/advanced" role="button" aria-expanded="false" aria-controls="sidenav-3-1-7">Advanced UI
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-7">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/advanced/actions_and_shortcuts">Actions &amp; shortcuts [NEW]</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/advanced/focus">Keyboard focus [NEW]</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/advanced/gestures">Gestures</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/advanced/slivers">Slivers</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/advanced/splash-screen">Splash screens</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/widgets">Widget catalog</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-2" href="https://docs.flutter.dev/cookbook/persistence/sqlite#sidenav-3-2" role="button" aria-expanded="false" aria-controls="sidenav-3-2">Data &amp; backend
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-2">
+      <li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-2-1" href="https://docs.flutter.dev/cookbook/persistence/sqlite#sidenav-3-2-1" role="button" aria-expanded="false" aria-controls="sidenav-3-2-1">State management
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-2-1">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/data-and-backend/state-mgmt/intro">Introduction</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/data-and-backend/state-mgmt/declarative">Think declaratively</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/data-and-backend/state-mgmt/ephemeral-vs-app">Ephemeral vs app state</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/data-and-backend/state-mgmt/simple">Simple app state management</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/data-and-backend/state-mgmt/options">Options</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/data-and-backend/networking">Networking &amp; http</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/data-and-backend/json">JSON and serialization</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/data-and-backend/firebase">Firebase</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-3" href="https://docs.flutter.dev/development/accessibility-and-localization" role="button" aria-expanded="false" aria-controls="sidenav-3-3">Accessibility &amp; internationalization
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-3">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/accessibility-and-localization/accessibility">Accessibility</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/accessibility-and-localization/internationalization">Internationalization</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-4" href="https://docs.flutter.dev/development/platform-integration" role="button" aria-expanded="false" aria-controls="sidenav-3-4">Platform integration
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-4">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/sdk/release-notes/supported-platforms">Supported platforms</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/platform-integration/ios-app-clip">Adding iOS App Clip support</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/platform-integration/apple-watch">Apple Watch support</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/platform-integration/c-interop">C interop</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/platform-integration/platform-views">Hosting native Android and iOS views</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/platform-integration/web">Web FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/platform-integration/platform-channels">Writing platform-specific code</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/desktop">Desktop</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-5" href="https://docs.flutter.dev/development/packages-and-plugins" role="button" aria-expanded="false" aria-controls="sidenav-3-5">Packages &amp; plugins
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-5">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/packages-and-plugins/using-packages">Using packages</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/packages-and-plugins/developing-packages">Developing packages &amp; plugins</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/packages-and-plugins/favorites">Flutter Favorites program</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/packages-and-plugins/background-processes">Background processes</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/packages-and-plugins/plugin-api-migration">Android plugin upgrade</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/flutter" target="_blank" rel="noopener">Package site<span class="material-icons md-24">
+        open_in_new
+      </span></a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-6" href="https://docs.flutter.dev/development/add-to-app" role="button" aria-expanded="false" aria-controls="sidenav-3-6">Add Flutter to existing app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/add-to-app">Introduction</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-6-2" href="https://docs.flutter.dev/development/add-to-app/android" role="button" aria-expanded="false" aria-controls="sidenav-3-6-2">Adding to an Android app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6-2">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/add-to-app/android/project-setup">Project setup</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/add-to-app/android/add-flutter-screen">Add a single Flutter screen</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/add-to-app/android/add-flutter-fragment">Add a Flutter Fragment</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/add-to-app/android/add-flutter-view">Add a Flutter View</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/add-to-app/android/plugin-setup">Plugin setup</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-6-3" href="https://docs.flutter.dev/development/add-to-app/ios" role="button" aria-expanded="false" aria-controls="sidenav-3-6-3">Adding to an iOS app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6-3">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/add-to-app/ios/project-setup">Project setup</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/add-to-app/ios/add-flutter-screen">Add a single Flutter screen</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/add-to-app/debugging">Debugging &amp; hot reload</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/add-to-app/performance">Loading sequence and performance</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/add-to-app/multiple-flutters">Multiple Flutter instances</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-7" href="https://docs.flutter.dev/development/tools" role="button" aria-expanded="false" aria-controls="sidenav-3-7">Tools &amp; features
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/android-studio">Android Studio &amp; IntelliJ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/vs-code">Visual Studio Code</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-7-3" href="https://docs.flutter.dev/development/tools/devtools" role="button" aria-expanded="false" aria-controls="sidenav-3-7-3">DevTools
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7-3">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/android-studio">Install from Android Studio &amp; IntelliJ</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/vscode">Install from VS Code</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/cli">Install from command line</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/inspector">Flutter inspector</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/performance">Performance view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/cpu-profiler">CPU Profiler view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/memory">Memory view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/network">Network view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/debugger">Debugger</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/logging">Logging view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/app-size">App size tool</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/release-notes">Release notes</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-7-4" href="https://docs.flutter.dev/development/tools/sdk" role="button" aria-expanded="false" aria-controls="sidenav-3-7-4">Flutter SDK
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7-4">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/sdk/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/sdk/upgrading">Upgrading</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/sdk/releases">Releases</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/release/breaking-changes">Breaking changes</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/sdk/release-notes">Release notes</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/pubspec">Flutter and the pubspec file</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/hot-reload">Hot reload</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/flutter-fix">Flutter Fix</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/formatting">Code formatting</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/web-renderers">Web renderers</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-8" href="https://docs.flutter.dev/development/androidx-migration" role="button" aria-expanded="false" aria-controls="sidenav-3-8">Migration notes
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-8">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/androidx-migration">AndroidX migration</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/packages-and-plugins/plugin-api-migration">Android plugin upgrade</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ios-14">Developing for iOS 14</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ios-project-migration">Xcode migration</a>
+  </li></ul>
+  </li>
+
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="https://docs.flutter.dev/cookbook/persistence/sqlite#sidenav-4" role="button" aria-expanded="false" aria-controls="sidenav-4">Testing &amp; debugging</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-4">
+        <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/testing/debugging">Debugging tools</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/testing/code-debugging">Debugging apps programmatically</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/testing/oem-debuggers">Using an OEM debugger</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/testing/build-modes">Flutter's build modes</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/testing/common-errors">Common Flutter errors</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/testing/errors">Handling errors</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/testing">Testing</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/testing/integration-tests">Integration testing</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/testing/integration-tests/migration">Migrating from flutter_driver</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="https://docs.flutter.dev/cookbook/persistence/sqlite#sidenav-5" role="button" aria-expanded="false" aria-controls="sidenav-5">Performance &amp; optimization</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-5">
+        <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/perf">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/perf/app-size">App size</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/perf/deferred-components">Deferred components [NEW]</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-5-4" href="https://docs.flutter.dev/perf/rendering" role="button" aria-expanded="false" aria-controls="sidenav-5-4">Rendering performance
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-5-4">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/perf/rendering">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/perf/rendering/best-practices">Performance best practices</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/perf/rendering/ui-performance">Performance profiling</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/perf/rendering/shader">Reduce shader compilation jank</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/perf/metrics">Performance metrics</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/perf/faq">Performance FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/perf/appendix">Appendix</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="https://docs.flutter.dev/cookbook/persistence/sqlite#sidenav-6" role="button" aria-expanded="false" aria-controls="sidenav-6">Deployment</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-6">
+        <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/deployment/obfuscate">Obfuscating Dart code</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/deployment/flavors">Creating flavors for Flutter</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/deployment/android">Build and release an Android app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/deployment/ios">Build and release an iOS app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/deployment/macos">Build and release a macOS app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/deployment/linux">Build and release a Linux app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/deployment/windows">Build and release a Windows app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/deployment/web">Build and release a web app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/deployment/cd">Continuous deployment</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="https://docs.flutter.dev/cookbook/persistence/sqlite#sidenav-7" role="button" aria-expanded="false" aria-controls="sidenav-7">Resources</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-7">
+        <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/resources/bootstrap-into-dart">Dart resources</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/resources/compatibility">Compatibility policy</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/resources/architectural-overview">Architectural overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/resources/inside-flutter">Inside Flutter</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/packages/google_fonts" target="_blank" rel="noopener">Google Fonts package<span class="material-icons md-24">
+        open_in_new
+      </span></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/resources/platform-adaptations">Platform adaptations</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/resources/videos">Videos and online courses</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/resources/books">Books</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/resources/faq">FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/resources/design-docs">Design Documents</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/resources/bug-reports">Creating useful bug reports</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://github.com/flutter/flutter/blob/master/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing to Flutter<span class="material-icons md-24">
+        open_in_new
+      </span></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://drive.google.com/drive/folders/1KXNtO9My2AMpDOF9A9Y_4aj4_BcgmDDT" target="_blank" rel="noopener">Official brand assets<span class="material-icons md-24">
+        open_in_new
+      </span></a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link " data-toggle="collapse" href="https://docs.flutter.dev/cookbook/persistence/sqlite#sidenav-8" role="button" aria-expanded="true" aria-controls="sidenav-8">Reference</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-8">
+        <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/dash">Who is Dash?</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/reference/widgets">Widget index</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://api.flutter.dev/" target="_blank" rel="noopener">API reference<span class="material-icons md-24">
+        open_in_new
+      </span></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/reference/flutter-cli">flutter CLI reference</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/flutter" target="_blank" rel="noopener">Package site<span class="material-icons md-24">
+        open_in_new
+      </span></a>
+  </li>
+</ul>
+    </li></ul>
+
+          </div>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="https://flutter.dev/multi-platform" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               Multi-Platform
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="https://flutter.dev/multi-platform/mobile">Mobile</a>
+              <a class="dropdown-item" href="https://flutter.dev/multi-platform/web">Web</a>
+              <a class="dropdown-item" href="https://flutter.dev/multi-platform/desktop">Desktop</a>
+              <a class="dropdown-item" href="https://flutter.dev/multi-platform/embedded">Embedded</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="https://flutter.dev/development" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               Development
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="https://flutter.dev/learn">Learn</a>
+              <a class="dropdown-item" href="https://pub.dev/flutter/favorites" target="_blank">Flutter Favorites</a>
+              <a class="dropdown-item" href="https://pub.dev/" target="_blank">Packages</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="https://flutter.dev/ecosystem" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               Ecosystem
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="https://flutter.dev/community">Community</a>
+              <a class="dropdown-item" href="https://flutter.dev/events">Events</a>
+              <a class="dropdown-item" href="https://flutter.dev/monetization">Monetization</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://flutter.dev/showcase">Showcase</a>
+          </li>
+          <li class="nav-item dropdown docs-item">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="https://docs.flutter.dev/" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               Docs
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item " href="https://docs.flutter.dev/whats-new">What's New</a>
+              <a class="dropdown-item " href="https://docs.flutter.dev/get-started/editor?tab=androidstudio">Editor Support</a>
+              <a class="dropdown-item " href="https://docs.flutter.dev/development/tools/hot-reload">Hot Reload</a>
+              <a class="dropdown-item " href="https://docs.flutter.dev/perf/rendering/ui-performance">Profiling</a>
+              <a class="dropdown-item " href="https://docs.flutter.dev/get-started/install">Install Flutter</a>
+              <a class="dropdown-item " href="https://docs.flutter.dev/development/tools/devtools/overview">Dev Tools</a>
+              <a class="dropdown-item  active" href="https://docs.flutter.dev/cookbook">Cookbook</a>
+              <a class="dropdown-item " href="https://docs.flutter.dev/reference/tutorials">Tutorials</a>
+            </div>
+          </li>
+        </ul>
+        <form action="https://docs.flutter.dev/search/" class="site-header__search form-inline">
+          <input class="site-header__searchfield form-control" type="search" name="q" id="q" autocomplete="off" placeholder="Search" aria-label="Search">
+        </form>
+      </div>
+    </div>
+    <div class="site-header__social navbar-nav flex-row">
+      <a class="nav-item nav-link" href="https://twitter.com/FlutterDev" aria-label="Twittter">
+        <i class="" data-fa-i2svg=""><svg class="svg-inline--fa fa-twitter fa-w-16 fa-lg" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="twitter" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg></i>
+      </a>
+      <a class="nav-item nav-link" href="https://www.youtube.com/flutterdev" aria-label="YouTube">
+        <i class="" data-fa-i2svg=""><svg class="svg-inline--fa fa-youtube fa-w-18 fa-lg" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="youtube" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"></path></svg></i>
+    </a>
+      <a class="nav-item nav-link" href="https://github.com/flutter" aria-label="Github">
+        <i class="" data-fa-i2svg=""><svg class="svg-inline--fa fa-github fa-w-16 fa-lg" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" data-fa-i2svg=""><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg></i>
+    </a>
+    </div>
+    <a class="site-header__cta btn btn-primary" href="https://docs.flutter.dev/get-started/install/">Get started
+      </a>
+    </nav>
+</header>
+
+    
+  <div class="site-banner site-banner--default" role="alert">
+    New: You can now build Windows apps with Flutter! <a href="https://medium.com/flutter/announcing-flutter-for-windows-6979d0d01fed">Learn more...</a>
+  </div>
+
+
+    <div class="container-fluid position-relative">
+  <div class="row flex-xl-nowrap">
+    <div class="fixed-col site-sidebar site-sidebar--fixed col-12 col-md-3 col-xl-2 d-none d-md-block" data-fixed-column="" style="position: fixed; max-height: 2293.59px; top: 66px;">
+      <ul class="nav flex-column"><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="https://docs.flutter.dev/cookbook/persistence/sqlite#sidenav-1" role="button" aria-expanded="false" aria-controls="sidenav-1">Get started</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-1">
+        <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/get-started/install">1. Install</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/get-started/editor">2. Set up an editor</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/get-started/test-drive">3. Test drive</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/get-started/codelab">4. Write your first app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/get-started/learn-more">5. Learn more</a>
+  </li><div class="dropdown-divider"></div><li class="nav-item">
+    <a class="nav-link collapsable" data-toggle="collapse" data-target="#sidenav-1-7" href="https://docs.flutter.dev/cookbook/persistence/sqlite#sidenav-1-7" role="button" aria-expanded="true" aria-controls="sidenav-1-7">From another platform?
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-1-7">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/get-started/flutter-for/android-devs">Flutter for Android devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/get-started/flutter-for/ios-devs">Flutter for iOS devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/get-started/flutter-for/react-native-devs">Flutter for React Native devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/get-started/flutter-for/web-devs">Flutter for web devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/get-started/flutter-for/xamarin-forms-devs">Flutter for Xamarin.Forms devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/get-started/flutter-for/declarative">Introduction to declarative UI</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/overview" target="_blank" rel="noopener">Dart language overview<span class="material-icons md-24">
+        open_in_new
+      </span></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/get-started/web">Building a web app</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link active" data-toggle="collapse" href="https://docs.flutter.dev/cookbook/persistence/sqlite#sidenav-2" role="button" aria-expanded="true" aria-controls="sidenav-2">Samples &amp; tutorials</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-2">
+        <li class="nav-item">
+    <a class="nav-link" href="https://gallery.flutter.dev/" target="_blank" rel="noopener">Flutter Gallery [running app]<span class="material-icons md-24">
+        open_in_new
+      </span></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://github.com/flutter/gallery" target="_blank" rel="noopener">Flutter Gallery [repo]<span class="material-icons md-24">
+        open_in_new
+      </span></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://flutter.github.io/samples/" target="_blank" rel="noopener">Sample apps on GitHub<span class="material-icons md-24">
+        open_in_new
+      </span></a>
+  </li><li class="nav-item">
+    <a class="nav-link active" href="https://docs.flutter.dev/cookbook">Cookbook</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/codelabs">Codelabs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/reference/tutorials">Tutorials</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link " data-toggle="collapse" href="https://docs.flutter.dev/cookbook/persistence/sqlite#sidenav-3" role="button" aria-expanded="true" aria-controls="sidenav-3">Development</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-3">
+        <li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-1" href="https://docs.flutter.dev/development/ui" role="button" aria-expanded="false" aria-controls="sidenav-3-1">User interface
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/widgets-intro">Introduction to widgets</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-1-2" href="https://docs.flutter.dev/development/ui/layout" role="button" aria-expanded="false" aria-controls="sidenav-3-1-2">Building layouts
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-2">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/layout">Layouts in Flutter</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/layout/tutorial">Tutorial</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/layout/adaptive-responsive">Creating adaptive and responsive apps</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/layout/building-adaptive-apps">Building adaptive apps</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/layout/constraints">Understanding constraints</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/layout/box-constraints">Box constraints</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/interactive">Adding interactivity</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/assets-and-images">Assets and images</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-1-5" href="https://docs.flutter.dev/development/ui/navigation" role="button" aria-expanded="false" aria-controls="sidenav-3-1-5">Navigation &amp; routing
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-5">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/navigation">Navigation in Flutter</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/navigation/deep-linking">Deep linking</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/navigation/url-strategies">URL strategies</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-1-6" href="https://docs.flutter.dev/development/ui/animations" role="button" aria-expanded="false" aria-controls="sidenav-3-1-6">Animations
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-6">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/animations">Introduction</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/animations/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/animations/tutorial">Tutorial</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/animations/implicit-animations">Implicit animations</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/animations/hero-animations">Hero animations</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/animations/staggered-animations">Staggered animations</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-1-7" href="https://docs.flutter.dev/development/ui/advanced" role="button" aria-expanded="false" aria-controls="sidenav-3-1-7">Advanced UI
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-7">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/advanced/actions_and_shortcuts">Actions &amp; shortcuts [NEW]</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/advanced/focus">Keyboard focus [NEW]</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/advanced/gestures">Gestures</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/advanced/slivers">Slivers</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/advanced/splash-screen">Splash screens</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ui/widgets">Widget catalog</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-2" href="https://docs.flutter.dev/cookbook/persistence/sqlite#sidenav-3-2" role="button" aria-expanded="false" aria-controls="sidenav-3-2">Data &amp; backend
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-2">
+      <li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-2-1" href="https://docs.flutter.dev/cookbook/persistence/sqlite#sidenav-3-2-1" role="button" aria-expanded="false" aria-controls="sidenav-3-2-1">State management
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-2-1">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/data-and-backend/state-mgmt/intro">Introduction</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/data-and-backend/state-mgmt/declarative">Think declaratively</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/data-and-backend/state-mgmt/ephemeral-vs-app">Ephemeral vs app state</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/data-and-backend/state-mgmt/simple">Simple app state management</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/data-and-backend/state-mgmt/options">Options</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/data-and-backend/networking">Networking &amp; http</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/data-and-backend/json">JSON and serialization</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/data-and-backend/firebase">Firebase</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-3" href="https://docs.flutter.dev/development/accessibility-and-localization" role="button" aria-expanded="false" aria-controls="sidenav-3-3">Accessibility &amp; internationalization
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-3">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/accessibility-and-localization/accessibility">Accessibility</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/accessibility-and-localization/internationalization">Internationalization</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-4" href="https://docs.flutter.dev/development/platform-integration" role="button" aria-expanded="false" aria-controls="sidenav-3-4">Platform integration
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-4">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/sdk/release-notes/supported-platforms">Supported platforms</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/platform-integration/ios-app-clip">Adding iOS App Clip support</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/platform-integration/apple-watch">Apple Watch support</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/platform-integration/c-interop">C interop</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/platform-integration/platform-views">Hosting native Android and iOS views</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/platform-integration/web">Web FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/platform-integration/platform-channels">Writing platform-specific code</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/desktop">Desktop</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-5" href="https://docs.flutter.dev/development/packages-and-plugins" role="button" aria-expanded="false" aria-controls="sidenav-3-5">Packages &amp; plugins
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-5">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/packages-and-plugins/using-packages">Using packages</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/packages-and-plugins/developing-packages">Developing packages &amp; plugins</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/packages-and-plugins/favorites">Flutter Favorites program</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/packages-and-plugins/background-processes">Background processes</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/packages-and-plugins/plugin-api-migration">Android plugin upgrade</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/flutter" target="_blank" rel="noopener">Package site<span class="material-icons md-24">
+        open_in_new
+      </span></a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-6" href="https://docs.flutter.dev/development/add-to-app" role="button" aria-expanded="false" aria-controls="sidenav-3-6">Add Flutter to existing app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/add-to-app">Introduction</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-6-2" href="https://docs.flutter.dev/development/add-to-app/android" role="button" aria-expanded="false" aria-controls="sidenav-3-6-2">Adding to an Android app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6-2">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/add-to-app/android/project-setup">Project setup</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/add-to-app/android/add-flutter-screen">Add a single Flutter screen</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/add-to-app/android/add-flutter-fragment">Add a Flutter Fragment</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/add-to-app/android/add-flutter-view">Add a Flutter View</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/add-to-app/android/plugin-setup">Plugin setup</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-6-3" href="https://docs.flutter.dev/development/add-to-app/ios" role="button" aria-expanded="false" aria-controls="sidenav-3-6-3">Adding to an iOS app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6-3">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/add-to-app/ios/project-setup">Project setup</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/add-to-app/ios/add-flutter-screen">Add a single Flutter screen</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/add-to-app/debugging">Debugging &amp; hot reload</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/add-to-app/performance">Loading sequence and performance</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/add-to-app/multiple-flutters">Multiple Flutter instances</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-7" href="https://docs.flutter.dev/development/tools" role="button" aria-expanded="false" aria-controls="sidenav-3-7">Tools &amp; features
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/android-studio">Android Studio &amp; IntelliJ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/vs-code">Visual Studio Code</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-7-3" href="https://docs.flutter.dev/development/tools/devtools" role="button" aria-expanded="false" aria-controls="sidenav-3-7-3">DevTools
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7-3">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/android-studio">Install from Android Studio &amp; IntelliJ</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/vscode">Install from VS Code</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/cli">Install from command line</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/inspector">Flutter inspector</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/performance">Performance view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/cpu-profiler">CPU Profiler view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/memory">Memory view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/network">Network view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/debugger">Debugger</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/logging">Logging view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/app-size">App size tool</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/devtools/release-notes">Release notes</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-7-4" href="https://docs.flutter.dev/development/tools/sdk" role="button" aria-expanded="false" aria-controls="sidenav-3-7-4">Flutter SDK
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7-4">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/sdk/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/sdk/upgrading">Upgrading</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/sdk/releases">Releases</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/release/breaking-changes">Breaking changes</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/sdk/release-notes">Release notes</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/pubspec">Flutter and the pubspec file</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/hot-reload">Hot reload</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/flutter-fix">Flutter Fix</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/formatting">Code formatting</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/tools/web-renderers">Web renderers</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-3-8" href="https://docs.flutter.dev/development/androidx-migration" role="button" aria-expanded="false" aria-controls="sidenav-3-8">Migration notes
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-8">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/androidx-migration">AndroidX migration</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/packages-and-plugins/plugin-api-migration">Android plugin upgrade</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ios-14">Developing for iOS 14</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/development/ios-project-migration">Xcode migration</a>
+  </li></ul>
+  </li>
+
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="https://docs.flutter.dev/cookbook/persistence/sqlite#sidenav-4" role="button" aria-expanded="false" aria-controls="sidenav-4">Testing &amp; debugging</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-4">
+        <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/testing/debugging">Debugging tools</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/testing/code-debugging">Debugging apps programmatically</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/testing/oem-debuggers">Using an OEM debugger</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/testing/build-modes">Flutter's build modes</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/testing/common-errors">Common Flutter errors</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/testing/errors">Handling errors</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/testing">Testing</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/testing/integration-tests">Integration testing</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/testing/integration-tests/migration">Migrating from flutter_driver</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="https://docs.flutter.dev/cookbook/persistence/sqlite#sidenav-5" role="button" aria-expanded="false" aria-controls="sidenav-5">Performance &amp; optimization</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-5">
+        <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/perf">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/perf/app-size">App size</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/perf/deferred-components">Deferred components [NEW]</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed" data-toggle="collapse" data-target="#sidenav-5-4" href="https://docs.flutter.dev/perf/rendering" role="button" aria-expanded="false" aria-controls="sidenav-5-4">Rendering performance
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-5-4">
+      <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/perf/rendering">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/perf/rendering/best-practices">Performance best practices</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/perf/rendering/ui-performance">Performance profiling</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/perf/rendering/shader">Reduce shader compilation jank</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/perf/metrics">Performance metrics</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/perf/faq">Performance FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/perf/appendix">Appendix</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="https://docs.flutter.dev/cookbook/persistence/sqlite#sidenav-6" role="button" aria-expanded="false" aria-controls="sidenav-6">Deployment</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-6">
+        <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/deployment/obfuscate">Obfuscating Dart code</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/deployment/flavors">Creating flavors for Flutter</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/deployment/android">Build and release an Android app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/deployment/ios">Build and release an iOS app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/deployment/macos">Build and release a macOS app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/deployment/linux">Build and release a Linux app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/deployment/windows">Build and release a Windows app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/deployment/web">Build and release a web app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/deployment/cd">Continuous deployment</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="https://docs.flutter.dev/cookbook/persistence/sqlite#sidenav-7" role="button" aria-expanded="false" aria-controls="sidenav-7">Resources</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-7">
+        <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/resources/bootstrap-into-dart">Dart resources</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/resources/compatibility">Compatibility policy</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/resources/architectural-overview">Architectural overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/resources/inside-flutter">Inside Flutter</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/packages/google_fonts" target="_blank" rel="noopener">Google Fonts package<span class="material-icons md-24">
+        open_in_new
+      </span></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/resources/platform-adaptations">Platform adaptations</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/resources/videos">Videos and online courses</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/resources/books">Books</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/resources/faq">FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/resources/design-docs">Design Documents</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/resources/bug-reports">Creating useful bug reports</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://github.com/flutter/flutter/blob/master/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing to Flutter<span class="material-icons md-24">
+        open_in_new
+      </span></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://drive.google.com/drive/folders/1KXNtO9My2AMpDOF9A9Y_4aj4_BcgmDDT" target="_blank" rel="noopener">Official brand assets<span class="material-icons md-24">
+        open_in_new
+      </span></a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link " data-toggle="collapse" href="https://docs.flutter.dev/cookbook/persistence/sqlite#sidenav-8" role="button" aria-expanded="true" aria-controls="sidenav-8">Reference</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-8">
+        <li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/dash">Who is Dash?</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/reference/widgets">Widget index</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://api.flutter.dev/" target="_blank" rel="noopener">API reference<span class="material-icons md-24">
+        open_in_new
+      </span></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://docs.flutter.dev/reference/flutter-cli">flutter CLI reference</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/flutter" target="_blank" rel="noopener">Package site<span class="material-icons md-24">
+        open_in_new
+      </span></a>
+  </li>
+</ul>
+    </li></ul>
+
+    </div>
+
+    <div id="site-toc--side" class="site-toc site-toc--side fixed-col col-xl-2 order-3" data-fixed-column="" style="position: fixed; max-height: 2293.59px; top: 66px;">
+  <header class="site-toc__title">
+    Contents
+    <button type="button" class="btn site-toc--button__page-top" aria-label="Page top"></button>
+    </header>
+  <ul id="toc" class="section-nav">
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="https://docs.flutter.dev/cookbook/persistence/sqlite#1-add-the-dependencies">1. Add the dependencies</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="https://docs.flutter.dev/cookbook/persistence/sqlite#2-define-the-dog-data-model">2. Define the Dog data model</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="https://docs.flutter.dev/cookbook/persistence/sqlite#3-open-the-database">3. Open the database</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="https://docs.flutter.dev/cookbook/persistence/sqlite#4-create-the-dogs-table">4. Create the dogs table</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="https://docs.flutter.dev/cookbook/persistence/sqlite#5-insert-a-dog-into-the-database">5. Insert a Dog into the database</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="https://docs.flutter.dev/cookbook/persistence/sqlite#6-retrieve-the-list-of-dogs">6. Retrieve the list of Dogs</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="https://docs.flutter.dev/cookbook/persistence/sqlite#7-update-a-dog-in-the-database">7. Update a Dog in the database</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="https://docs.flutter.dev/cookbook/persistence/sqlite#8-delete-a-dog-from-the-database">8. Delete a Dog from the database</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link active" href="https://docs.flutter.dev/cookbook/persistence/sqlite#example">Example</a></li>
+</ul>
+</div>
+<main class="site-content col-12 col-md-9 offset-md-3 col-xl-8 offset-xl-2 col-xxl-8 offset-xxl-2" role="main">
+      <div class="container">
+
+        
+
+        <nav class="site-nextprev-nav">
+    <ul>
+      <li class="prev">
+          <a href="https://docs.flutter.dev/cookbook/networking/web-sockets">Work with WebSockets</a>
+      </li>
+      <li class="next">
+          <a href="https://docs.flutter.dev/cookbook/persistence/reading-writing-files">Read and write files</a>
+      </li>
+      </ul>
+  </nav>
+
+
+        <header class="site-content__title">
+          <div id="page-github-links" class="btn-group" aria-label="Page GitHub links" role="group">
+  <a href="https://github.com/flutter/website/tree/main/src/cookbook/persistence/sqlite.md" class="btn no-automatic-external" title="View page source" target="_blank" rel="noopener">
+    <i class="" data-fa-i2svg=""><svg class="svg-inline--fa fa-file-alt fa-w-12 fa-sm" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="file-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=""><path fill="currentColor" d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm64 236c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12v8zm0-64c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12v8zm0-72v8c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12zm96-114.1v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z"></path></svg></i>
+  </a>
+  <a href="https://github.com/flutter/website/issues/new?template=1_page_issue.yml&amp;title=[PAGE%20ISSUE]:%20%27Persist%20data%20with%20SQLite%27&amp;page-url=https://docs.flutter.dev/cookbook/persistence/sqlite/&amp;page-source=https://github.com/flutter/website/tree/main/src/cookbook/persistence/sqlite.md" class="btn no-automatic-external" title="Report an issue with this page" target="_blank" rel="noopener">
+    <i class="" data-fa-i2svg=""><svg class="svg-inline--fa fa-bug fa-w-16 fa-sm" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bug" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M511.988 288.9c-.478 17.43-15.217 31.1-32.653 31.1H424v16c0 21.864-4.882 42.584-13.6 61.145l60.228 60.228c12.496 12.497 12.496 32.758 0 45.255-12.498 12.497-32.759 12.496-45.256 0l-54.736-54.736C345.886 467.965 314.351 480 280 480V236c0-6.627-5.373-12-12-12h-24c-6.627 0-12 5.373-12 12v244c-34.351 0-65.886-12.035-90.636-32.108l-54.736 54.736c-12.498 12.497-32.759 12.496-45.256 0-12.496-12.497-12.496-32.758 0-45.255l60.228-60.228C92.882 378.584 88 357.864 88 336v-16H32.666C15.23 320 .491 306.33.013 288.9-.484 270.816 14.028 256 32 256h56v-58.745l-46.628-46.628c-12.496-12.497-12.496-32.758 0-45.255 12.498-12.497 32.758-12.497 45.256 0L141.255 160h229.489l54.627-54.627c12.498-12.497 32.758-12.497 45.256 0 12.496 12.497 12.496 32.758 0 45.255L424 197.255V256h56c17.972 0 32.484 14.816 31.988 32.9zM257 0c-61.856 0-112 50.144-112 112h224C369 50.144 318.856 0 257 0z"></path></svg></i>
+  </a>
+</div>
+
+          <h1>Persist data with SQLite</h1>
+          
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb" vocab="http://schema.org/" typeof="BreadcrumbList">
+  <li class="breadcrumb-item" property="itemListElement" typeof="ListItem"><a href="https://docs.flutter.dev/cookbook" property="item" typeof="WebPage"><span property="name">Cookbook</span>
+      </a>
+      <meta property="position" content="1">
+    </li>
+  <li class="breadcrumb-item" property="itemListElement" typeof="ListItem"><a href="https://docs.flutter.dev/cookbook/persistence" property="item" typeof="WebPage"><span property="name">Persistence</span>
+      </a>
+      <meta property="position" content="2">
+    </li>
+  <li class="breadcrumb-item active" property="itemListElement" typeof="ListItem" aria-current="page"><a href="https://docs.flutter.dev/cookbook/persistence/sqlite" property="item" typeof="WebPage"><span property="name">Persist data with SQLite</span>
+      </a>
+      <meta property="position" content="3">
+    </li>
+  
+  </ol>
+</nav>
+          </header>
+        
+        <div id="site-toc--inline" class="site-toc site-toc--inline ">
+  <header class="site-toc__title">
+    Contents
+    </header>
+  <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h2"><a href="https://docs.flutter.dev/cookbook/persistence/sqlite#1-add-the-dependencies">1. Add the dependencies</a></li>
+<li class="toc-entry toc-h2"><a href="https://docs.flutter.dev/cookbook/persistence/sqlite#2-define-the-dog-data-model">2. Define the Dog data model</a></li>
+<li class="toc-entry toc-h2"><a href="https://docs.flutter.dev/cookbook/persistence/sqlite#3-open-the-database">3. Open the database</a></li>
+<li class="toc-entry toc-h2"><a href="https://docs.flutter.dev/cookbook/persistence/sqlite#4-create-the-dogs-table">4. Create the dogs table</a></li>
+<li class="toc-entry toc-h2"><a href="https://docs.flutter.dev/cookbook/persistence/sqlite#5-insert-a-dog-into-the-database">5. Insert a Dog into the database</a></li>
+<li class="toc-entry toc-h2"><a href="https://docs.flutter.dev/cookbook/persistence/sqlite#6-retrieve-the-list-of-dogs">6. Retrieve the list of Dogs</a></li>
+<li class="toc-entry toc-h2"><a href="https://docs.flutter.dev/cookbook/persistence/sqlite#7-update-a-dog-in-the-database">7. Update a Dog in the database</a></li>
+<li class="toc-entry toc-h2"><a href="https://docs.flutter.dev/cookbook/persistence/sqlite#8-delete-a-dog-from-the-database">8. Delete a Dog from the database</a></li>
+<li class="toc-entry toc-h2"><a href="https://docs.flutter.dev/cookbook/persistence/sqlite#example">Example</a></li>
+</ul>
+</div>
+
+<p>If you are writing an app that needs to persist and query large amounts of data on
+the local device, consider using a database instead of a local file or
+key-value store. In general, databases provide faster inserts, updates,
+and queries compared to other local persistence solutions.</p>
+
+<p>Flutter apps can make use of the SQLite databases via the
+<a href="https://pub.dev/packages/sqflite"><code class="language-plaintext highlighter-rouge">sqflite</code></a> plugin available on pub.dev.
+This recipe demonstrates the basics of using <code class="language-plaintext highlighter-rouge">sqflite</code>
+to insert, read, update, and remove data about various Dogs.</p>
+
+<p>If you are new to SQLite and SQL statements, review the
+<a href="http://www.sqlitetutorial.net/">SQLite Tutorial</a> to learn the basics before
+completing this recipe.</p>
+
+<p>This recipe uses the following steps:</p>
+
+<ol>
+  <li>Add the dependencies.</li>
+  <li>Define the <code class="language-plaintext highlighter-rouge">Dog</code> data model.</li>
+  <li>Open the database.</li>
+  <li>Create the <code class="language-plaintext highlighter-rouge">dogs</code> table.</li>
+  <li>Insert a <code class="language-plaintext highlighter-rouge">Dog</code> into the database.</li>
+  <li>Retrieve the list of dogs.</li>
+  <li>Update a <code class="language-plaintext highlighter-rouge">Dog</code> in the database.</li>
+  <li>Delete a <code class="language-plaintext highlighter-rouge">Dog</code> from the database.</li>
+</ol>
+
+<h2 id="1-add-the-dependencies">
+<a class="anchor" href="https://docs.flutter.dev/cookbook/persistence/sqlite#1-add-the-dependencies" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. Add the dependencies</h2>
+
+<p>To work with SQLite databases, import the <code class="language-plaintext highlighter-rouge">sqflite</code> and <code class="language-plaintext highlighter-rouge">path</code> packages.</p>
+
+<ul>
+  <li>The <code class="language-plaintext highlighter-rouge">sqflite</code> package provides classes and functions to
+interact with a SQLite database.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">path</code> package provides functions to
+define the location for storing the database on disk.</li>
+</ul>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><div class="code-excerpt__code"><button class="code-excerpt__copy-btn" type="button" data-toggle="tooltip" title="" data-clipboard-target="#code-excerpt-0" data-original-title="Copy code">  <i class="material-icons">content_copy</i></button><div id="code-excerpt-0"><pre class="highlight"><code><span class="na">dependencies</span><span class="pi">:</span>
+  <span class="na">flutter</span><span class="pi">:</span>
+    <span class="na">sdk</span><span class="pi">:</span> <span class="s">flutter</span>
+  <span class="na">sqflite</span><span class="pi">:</span>
+  <span class="na">path</span><span class="pi">:</span>
+</code></pre></div></div></div></div>
+
+<p>Make sure to import the packages in the file you’ll be working in.</p>
+
+<div class="code-excerpt">
+<div class="code-excerpt__code"><button class="code-excerpt__copy-btn" type="button" data-toggle="tooltip" title="" data-clipboard-target="#code-excerpt-1" data-original-title="Copy code">  <i class="material-icons">content_copy</i></button><div id="code-excerpt-1"><pre class="prettyprint lang-dart prettyprinted" style=""><span class="kwd">import</span><span class="pln"> </span><span class="str">'dart:async'</span><span class="pun">;</span><span class="pln">
+
+</span><span class="kwd">import</span><span class="pln"> </span><span class="str">'package:path/path.dart'</span><span class="pun">;</span><span class="pln">
+</span><span class="kwd">import</span><span class="pln"> </span><span class="str">'package:sqflite/sqflite.dart'</span><span class="pun">;</span></pre></div></div>
+</div>
+
+<h2 id="2-define-the-dog-data-model">
+<a class="anchor" href="https://docs.flutter.dev/cookbook/persistence/sqlite#2-define-the-dog-data-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Define the Dog data model</h2>
+
+<p>Before creating the table to store information on Dogs, take a few moments to
+define the data that needs to be stored. For this example, define a Dog class
+that contains three pieces of data:
+A unique <code class="language-plaintext highlighter-rouge">id</code>, the <code class="language-plaintext highlighter-rouge">name</code>, and the <code class="language-plaintext highlighter-rouge">age</code> of each dog.</p>
+
+<div class="code-excerpt">
+<div class="code-excerpt__code"><button class="code-excerpt__copy-btn" type="button" data-toggle="tooltip" title="" data-clipboard-target="#code-excerpt-2" data-original-title="Copy code">  <i class="material-icons">content_copy</i></button><div id="code-excerpt-2"><pre class="prettyprint lang-dart prettyprinted" style=""><span class="kwd">class</span><span class="pln"> </span><span class="typ">Dog</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">final</span><span class="pln"> </span><span class="typ">int</span><span class="pln"> id</span><span class="pun">;</span><span class="pln">
+  </span><span class="kwd">final</span><span class="pln"> </span><span class="typ">String</span><span class="pln"> name</span><span class="pun">;</span><span class="pln">
+  </span><span class="kwd">final</span><span class="pln"> </span><span class="typ">int</span><span class="pln"> age</span><span class="pun">;</span><span class="pln">
+
+  </span><span class="kwd">const</span><span class="pln"> </span><span class="typ">Dog</span><span class="pun">({</span><span class="pln">
+    </span><span class="kwd">required</span><span class="pln"> </span><span class="kwd">this</span><span class="pun">.</span><span class="pln">id</span><span class="pun">,</span><span class="pln">
+    </span><span class="kwd">required</span><span class="pln"> </span><span class="kwd">this</span><span class="pun">.</span><span class="pln">name</span><span class="pun">,</span><span class="pln">
+    </span><span class="kwd">required</span><span class="pln"> </span><span class="kwd">this</span><span class="pun">.</span><span class="pln">age</span><span class="pun">,</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+</span><span class="pun">}</span></pre></div></div>
+</div>
+
+<h2 id="3-open-the-database">
+<a class="anchor" href="https://docs.flutter.dev/cookbook/persistence/sqlite#3-open-the-database" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. Open the database</h2>
+
+<p>Before reading and writing data to the database, open a connection
+to the database. This involves two steps:</p>
+
+<ol>
+  <li>Define the path to the database file using <code class="language-plaintext highlighter-rouge">getDatabasesPath()</code> from the
+  <code class="language-plaintext highlighter-rouge">sqflite</code> package, combined with the <code class="language-plaintext highlighter-rouge">join</code> function from the <code class="language-plaintext highlighter-rouge">path</code> package.</li>
+  <li>Open the database with the <code class="language-plaintext highlighter-rouge">openDatabase()</code> function from <code class="language-plaintext highlighter-rouge">sqflite</code>.</li>
+</ol>
+
+<aside class="alert alert-info" role="alert">
+  <p><i class="" data-fa-i2svg=""><svg class="svg-inline--fa fa-info-circle fa-w-16" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="info-circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z"></path></svg></i> <strong>Note:</strong>
+  In order to use the keyword <code class="language-plaintext highlighter-rouge">await</code>, the code must be placed
+  inside an <code class="language-plaintext highlighter-rouge">async</code> function. You should place all the following
+  table functions inside <code class="language-plaintext highlighter-rouge">void main() async {}</code>.</p>
+</aside>
+
+<div class="code-excerpt">
+<div class="code-excerpt__code"><button class="code-excerpt__copy-btn" type="button" data-toggle="tooltip" title="" data-clipboard-target="#code-excerpt-3" data-original-title="Copy code">  <i class="material-icons">content_copy</i></button><div id="code-excerpt-3"><pre class="prettyprint lang-dart prettyprinted" style=""><span class="com">// Avoid errors caused by flutter upgrade.</span><span class="pln">
+</span><span class="com">// Importing 'package:flutter/widgets.dart' is required.</span><span class="pln">
+</span><span class="typ">WidgetsFlutterBinding</span><span class="pun">.</span><span class="pln">ensureInitialized</span><span class="pun">();</span><span class="pln">
+</span><span class="com">// Open the database and store the reference.</span><span class="pln">
+</span><span class="kwd">final</span><span class="pln"> database </span><span class="pun">=</span><span class="pln"> openDatabase</span><span class="pun">(</span><span class="pln">
+  </span><span class="com">// Set the path to the database. Note: Using the `join` function from the</span><span class="pln">
+  </span><span class="com">// `path` package is best practice to ensure the path is correctly</span><span class="pln">
+  </span><span class="com">// constructed for each platform.</span><span class="pln">
+  join</span><span class="pun">(</span><span class="kwd">await</span><span class="pln"> getDatabasesPath</span><span class="pun">(),</span><span class="pln"> </span><span class="str">'doggie_database.db'</span><span class="pun">),</span><span class="pln">
+</span><span class="pun">);</span></pre></div></div>
+</div>
+
+<h2 id="4-create-the-dogs-table">
+<a class="anchor" href="https://docs.flutter.dev/cookbook/persistence/sqlite#4-create-the-dogs-table" aria-hidden="true"><span class="octicon octicon-link"></span></a>4. Create the <code class="language-plaintext highlighter-rouge">dogs</code> table</h2>
+
+<p>Next, create a table to store information about various Dogs.
+For this example, create a table called <code class="language-plaintext highlighter-rouge">dogs</code> that defines the data
+that can be stored. Each <code class="language-plaintext highlighter-rouge">Dog</code> contains an <code class="language-plaintext highlighter-rouge">id</code>, <code class="language-plaintext highlighter-rouge">name</code>, and <code class="language-plaintext highlighter-rouge">age</code>.
+Therefore, these are represented as three columns in the <code class="language-plaintext highlighter-rouge">dogs</code> table.</p>
+
+<ol>
+  <li>The <code class="language-plaintext highlighter-rouge">id</code> is a Dart <code class="language-plaintext highlighter-rouge">int</code>, and is stored as an <code class="language-plaintext highlighter-rouge">INTEGER</code> SQLite
+Datatype. It is also good practice to use an <code class="language-plaintext highlighter-rouge">id</code> as the primary
+key for the table to improve query and update times.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">name</code> is a Dart <code class="language-plaintext highlighter-rouge">String</code>, and is stored as a <code class="language-plaintext highlighter-rouge">TEXT</code> SQLite
+Datatype.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">age</code> is also a Dart <code class="language-plaintext highlighter-rouge">int</code>, and is stored as an <code class="language-plaintext highlighter-rouge">INTEGER</code>
+Datatype.</li>
+</ol>
+
+<p>For more information about the available Datatypes that can be stored in a
+SQLite database, see the <a href="https://www.sqlite.org/datatype3.html">official SQLite Datatypes documentation</a>.</p>
+
+<div class="code-excerpt">
+<div class="code-excerpt__code"><button class="code-excerpt__copy-btn" type="button" data-toggle="tooltip" title="" data-clipboard-target="#code-excerpt-4" data-original-title="Copy code">  <i class="material-icons">content_copy</i></button><div id="code-excerpt-4"><pre class="prettyprint lang-dart prettyprinted" style=""><span class="kwd">final</span><span class="pln"> database </span><span class="pun">=</span><span class="pln"> openDatabase</span><span class="pun">(</span><span class="pln">
+  </span><span class="com">// Set the path to the database. Note: Using the `join` function from the</span><span class="pln">
+  </span><span class="com">// `path` package is best practice to ensure the path is correctly</span><span class="pln">
+  </span><span class="com">// constructed for each platform.</span><span class="pln">
+  join</span><span class="pun">(</span><span class="kwd">await</span><span class="pln"> getDatabasesPath</span><span class="pun">(),</span><span class="pln"> </span><span class="str">'doggie_database.db'</span><span class="pun">),</span><span class="pln">
+  </span><span class="com">// When the database is first created, create a table to store dogs.</span><span class="pln">
+  onCreate</span><span class="pun">:</span><span class="pln"> </span><span class="pun">(</span><span class="pln">db</span><span class="pun">,</span><span class="pln"> version</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="com">// Run the CREATE TABLE statement on the database.</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> db</span><span class="pun">.</span><span class="pln">execute</span><span class="pun">(</span><span class="pln">
+      </span><span class="str">'CREATE TABLE dogs(id INTEGER PRIMARY KEY, name TEXT, age INTEGER)'</span><span class="pun">,</span><span class="pln">
+    </span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">},</span><span class="pln">
+  </span><span class="com">// Set the version. This executes the onCreate function and provides a</span><span class="pln">
+  </span><span class="com">// path to perform database upgrades and downgrades.</span><span class="pln">
+  version</span><span class="pun">:</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln">
+</span><span class="pun">);</span></pre></div></div>
+</div>
+
+<h2 id="5-insert-a-dog-into-the-database">
+<a class="anchor" href="https://docs.flutter.dev/cookbook/persistence/sqlite#5-insert-a-dog-into-the-database" aria-hidden="true"><span class="octicon octicon-link"></span></a>5. Insert a Dog into the database</h2>
+
+<p>Now that you have a database with a table suitable for storing information
+about various dogs, it’s time to read and write data.</p>
+
+<p>First, insert a <code class="language-plaintext highlighter-rouge">Dog</code> into the <code class="language-plaintext highlighter-rouge">dogs</code> table. This involves two steps:</p>
+
+<ol>
+  <li>Convert the <code class="language-plaintext highlighter-rouge">Dog</code> into a <code class="language-plaintext highlighter-rouge">Map</code>
+</li>
+  <li>Use the <a href="https://pub.dev/documentation/sqflite_common/latest/sqlite_api/DatabaseExecutor/insert.html"><code class="language-plaintext highlighter-rouge">insert()</code></a> method to store the
+<code class="language-plaintext highlighter-rouge">Map</code> in the <code class="language-plaintext highlighter-rouge">dogs</code> table.</li>
+</ol>
+
+<div class="code-excerpt">
+<div class="code-excerpt__code"><button class="code-excerpt__copy-btn" type="button" data-toggle="tooltip" title="" data-clipboard-target="#code-excerpt-5" data-original-title="Copy code">  <i class="material-icons">content_copy</i></button><div id="code-excerpt-5"><pre class="prettyprint lang-dart prettyprinted" style=""><span class="kwd">class</span><span class="pln"> </span><span class="typ">Dog</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">final</span><span class="pln"> </span><span class="typ">int</span><span class="pln"> id</span><span class="pun">;</span><span class="pln">
+  </span><span class="kwd">final</span><span class="pln"> </span><span class="typ">String</span><span class="pln"> name</span><span class="pun">;</span><span class="pln">
+  </span><span class="kwd">final</span><span class="pln"> </span><span class="typ">int</span><span class="pln"> age</span><span class="pun">;</span><span class="pln">
+
+  </span><span class="kwd">const</span><span class="pln"> </span><span class="typ">Dog</span><span class="pun">({</span><span class="pln">
+    </span><span class="kwd">required</span><span class="pln"> </span><span class="kwd">this</span><span class="pun">.</span><span class="pln">id</span><span class="pun">,</span><span class="pln">
+    </span><span class="kwd">required</span><span class="pln"> </span><span class="kwd">this</span><span class="pun">.</span><span class="pln">name</span><span class="pun">,</span><span class="pln">
+    </span><span class="kwd">required</span><span class="pln"> </span><span class="kwd">this</span><span class="pun">.</span><span class="pln">age</span><span class="pun">,</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+
+  </span><span class="com">// Convert a Dog into a Map. The keys must correspond to the names of the</span><span class="pln">
+  </span><span class="com">// columns in the database.</span><span class="pln">
+  </span><span class="typ">Map</span><span class="pun">&lt;</span><span class="typ">String</span><span class="pun">,</span><span class="pln"> </span><span class="typ">dynamic</span><span class="pun">&gt;</span><span class="pln"> toMap</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+      </span><span class="str">'id'</span><span class="pun">:</span><span class="pln"> id</span><span class="pun">,</span><span class="pln">
+      </span><span class="str">'name'</span><span class="pun">:</span><span class="pln"> name</span><span class="pun">,</span><span class="pln">
+      </span><span class="str">'age'</span><span class="pun">:</span><span class="pln"> age</span><span class="pun">,</span><span class="pln">
+    </span><span class="pun">};</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+
+  </span><span class="com">// Implement toString to make it easier to see information about</span><span class="pln">
+  </span><span class="com">// each dog when using the print statement.</span><span class="pln">
+  @override
+  </span><span class="typ">String</span><span class="pln"> toString</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> </span><span class="str">'Dog{id: $id, name: $name, age: $age}'</span><span class="pun">;</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span></pre></div></div>
+</div>
+
+<div class="code-excerpt">
+<div class="code-excerpt__code"><button class="code-excerpt__copy-btn" type="button" data-toggle="tooltip" title="" data-clipboard-target="#code-excerpt-6" data-original-title="Copy code">  <i class="material-icons">content_copy</i></button><div id="code-excerpt-6"><pre class="prettyprint lang-dart prettyprinted" style=""><span class="com">// Define a function that inserts dogs into the database</span><span class="pln">
+</span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">void</span><span class="pun">&gt;</span><span class="pln"> insertDog</span><span class="pun">(</span><span class="typ">Dog</span><span class="pln"> dog</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">async</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="com">// Get a reference to the database.</span><span class="pln">
+  </span><span class="kwd">final</span><span class="pln"> db </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">await</span><span class="pln"> database</span><span class="pun">;</span><span class="pln">
+
+  </span><span class="com">// Insert the Dog into the correct table. You might also specify the</span><span class="pln">
+  </span><span class="com">// `conflictAlgorithm` to use in case the same dog is inserted twice.</span><span class="pln">
+  </span><span class="com">//</span><span class="pln">
+  </span><span class="com">// In this case, replace any previous data.</span><span class="pln">
+  </span><span class="kwd">await</span><span class="pln"> db</span><span class="pun">.</span><span class="pln">insert</span><span class="pun">(</span><span class="pln">
+    </span><span class="str">'dogs'</span><span class="pun">,</span><span class="pln">
+    dog</span><span class="pun">.</span><span class="pln">toMap</span><span class="pun">(),</span><span class="pln">
+    conflictAlgorithm</span><span class="pun">:</span><span class="pln"> </span><span class="typ">ConflictAlgorithm</span><span class="pun">.</span><span class="pln">replace</span><span class="pun">,</span><span class="pln">
+  </span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span></pre></div></div>
+</div>
+
+<div class="code-excerpt">
+<div class="code-excerpt__code"><button class="code-excerpt__copy-btn" type="button" data-toggle="tooltip" title="" data-clipboard-target="#code-excerpt-7" data-original-title="Copy code">  <i class="material-icons">content_copy</i></button><div id="code-excerpt-7"><pre class="prettyprint lang-dart prettyprinted" style=""><span class="com">// Create a Dog and add it to the dogs table</span><span class="pln">
+</span><span class="kwd">var</span><span class="pln"> fido </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">const</span><span class="pln"> </span><span class="typ">Dog</span><span class="pun">(</span><span class="pln">
+  id</span><span class="pun">:</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln">
+  name</span><span class="pun">:</span><span class="pln"> </span><span class="str">'Fido'</span><span class="pun">,</span><span class="pln">
+  age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">35</span><span class="pun">,</span><span class="pln">
+</span><span class="pun">);</span><span class="pln">
+
+</span><span class="kwd">await</span><span class="pln"> insertDog</span><span class="pun">(</span><span class="pln">fido</span><span class="pun">);</span></pre></div></div>
+</div>
+
+<h2 id="6-retrieve-the-list-of-dogs">
+<a class="anchor" href="https://docs.flutter.dev/cookbook/persistence/sqlite#6-retrieve-the-list-of-dogs" aria-hidden="true"><span class="octicon octicon-link"></span></a>6. Retrieve the list of Dogs</h2>
+
+<p>Now that a <code class="language-plaintext highlighter-rouge">Dog</code> is stored in the database, query the database
+for a specific dog or a list of all dogs. This involves two steps:</p>
+
+<ol>
+  <li>Run a <code class="language-plaintext highlighter-rouge">query</code> against the <code class="language-plaintext highlighter-rouge">dogs</code> table. This returns a <code class="language-plaintext highlighter-rouge">List&lt;Map&gt;</code>.</li>
+  <li>Convert the <code class="language-plaintext highlighter-rouge">List&lt;Map&gt;</code> into a <code class="language-plaintext highlighter-rouge">List&lt;Dog&gt;</code>.</li>
+</ol>
+
+<div class="code-excerpt">
+<div class="code-excerpt__code"><button class="code-excerpt__copy-btn" type="button" data-toggle="tooltip" title="" data-clipboard-target="#code-excerpt-8" data-original-title="Copy code">  <i class="material-icons">content_copy</i></button><div id="code-excerpt-8"><pre class="prettyprint lang-dart prettyprinted" style=""><span class="com">// A method that retrieves all the dogs from the dogs table.</span><span class="pln">
+</span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">List</span><span class="pun">&lt;</span><span class="typ">Dog</span><span class="pun">&gt;&gt;</span><span class="pln"> dogs</span><span class="pun">()</span><span class="pln"> </span><span class="kwd">async</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="com">// Get a reference to the database.</span><span class="pln">
+  </span><span class="kwd">final</span><span class="pln"> db </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">await</span><span class="pln"> database</span><span class="pun">;</span><span class="pln">
+
+  </span><span class="com">// Query the table for all The Dogs.</span><span class="pln">
+  </span><span class="kwd">final</span><span class="pln"> </span><span class="typ">List</span><span class="pun">&lt;</span><span class="typ">Map</span><span class="pun">&lt;</span><span class="typ">String</span><span class="pun">,</span><span class="pln"> </span><span class="typ">dynamic</span><span class="pun">&gt;&gt;</span><span class="pln"> maps </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">await</span><span class="pln"> db</span><span class="pun">.</span><span class="pln">query</span><span class="pun">(</span><span class="str">'dogs'</span><span class="pun">);</span><span class="pln">
+
+  </span><span class="com">// Convert the List&lt;Map&lt;String, dynamic&gt; into a List&lt;Dog&gt;.</span><span class="pln">
+  </span><span class="kwd">return</span><span class="pln"> </span><span class="typ">List</span><span class="pun">.</span><span class="pln">generate</span><span class="pun">(</span><span class="pln">maps</span><span class="pun">.</span><span class="pln">length</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="pln">i</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> </span><span class="typ">Dog</span><span class="pun">(</span><span class="pln">
+      id</span><span class="pun">:</span><span class="pln"> maps</span><span class="pun">[</span><span class="pln">i</span><span class="pun">][</span><span class="str">'id'</span><span class="pun">],</span><span class="pln">
+      name</span><span class="pun">:</span><span class="pln"> maps</span><span class="pun">[</span><span class="pln">i</span><span class="pun">][</span><span class="str">'name'</span><span class="pun">],</span><span class="pln">
+      age</span><span class="pun">:</span><span class="pln"> maps</span><span class="pun">[</span><span class="pln">i</span><span class="pun">][</span><span class="str">'age'</span><span class="pun">],</span><span class="pln">
+    </span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+</span><span class="pun">}</span></pre></div></div>
+</div>
+
+<div class="code-excerpt">
+<div class="code-excerpt__code"><button class="code-excerpt__copy-btn" type="button" data-toggle="tooltip" title="" data-clipboard-target="#code-excerpt-9" data-original-title="Copy code">  <i class="material-icons">content_copy</i></button><div id="code-excerpt-9"><pre class="prettyprint lang-dart prettyprinted" style=""><span class="com">// Now, use the method above to retrieve all the dogs.</span><span class="pln">
+print</span><span class="pun">(</span><span class="kwd">await</span><span class="pln"> dogs</span><span class="pun">());</span><span class="pln"> </span><span class="com">// Prints a list that include Fido.</span></pre></div></div>
+</div>
+
+<h2 id="7-update-a-dog-in-the-database">
+<a class="anchor" href="https://docs.flutter.dev/cookbook/persistence/sqlite#7-update-a-dog-in-the-database" aria-hidden="true"><span class="octicon octicon-link"></span></a>7. Update a <code class="language-plaintext highlighter-rouge">Dog</code> in the database</h2>
+
+<p>After inserting information into the database,
+you might want to update that information at a later time.
+You can do this by using the <a href="https://pub.dev/documentation/sqflite_common/latest/sqlite_api/DatabaseExecutor/update.html"><code class="language-plaintext highlighter-rouge">update()</code></a>
+method from the <code class="language-plaintext highlighter-rouge">sqflite</code> library.</p>
+
+<p>This involves two steps:</p>
+
+<ol>
+  <li>Convert the Dog into a Map.</li>
+  <li>Use a <code class="language-plaintext highlighter-rouge">where</code> clause to ensure you update the correct Dog.</li>
+</ol>
+
+<div class="code-excerpt">
+<div class="code-excerpt__code"><button class="code-excerpt__copy-btn" type="button" data-toggle="tooltip" title="" data-clipboard-target="#code-excerpt-10" data-original-title="Copy code">  <i class="material-icons">content_copy</i></button><div id="code-excerpt-10"><pre class="prettyprint lang-dart prettyprinted" style=""><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">void</span><span class="pun">&gt;</span><span class="pln"> updateDog</span><span class="pun">(</span><span class="typ">Dog</span><span class="pln"> dog</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">async</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="com">// Get a reference to the database.</span><span class="pln">
+  </span><span class="kwd">final</span><span class="pln"> db </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">await</span><span class="pln"> database</span><span class="pun">;</span><span class="pln">
+
+  </span><span class="com">// Update the given Dog.</span><span class="pln">
+  </span><span class="kwd">await</span><span class="pln"> db</span><span class="pun">.</span><span class="pln">update</span><span class="pun">(</span><span class="pln">
+    </span><span class="str">'dogs'</span><span class="pun">,</span><span class="pln">
+    dog</span><span class="pun">.</span><span class="pln">toMap</span><span class="pun">(),</span><span class="pln">
+    </span><span class="com">// Ensure that the Dog has a matching id.</span><span class="pln">
+    where</span><span class="pun">:</span><span class="pln"> </span><span class="str">'id = ?'</span><span class="pun">,</span><span class="pln">
+    </span><span class="com">// Pass the Dog's id as a whereArg to prevent SQL injection.</span><span class="pln">
+    whereArgs</span><span class="pun">:</span><span class="pln"> </span><span class="pun">[</span><span class="pln">dog</span><span class="pun">.</span><span class="pln">id</span><span class="pun">],</span><span class="pln">
+  </span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span></pre></div></div>
+</div>
+
+<div class="code-excerpt">
+<div class="code-excerpt__code"><button class="code-excerpt__copy-btn" type="button" data-toggle="tooltip" title="" data-clipboard-target="#code-excerpt-11" data-original-title="Copy code">  <i class="material-icons">content_copy</i></button><div id="code-excerpt-11"><pre class="prettyprint lang-dart prettyprinted" style=""><span class="com">// Update Fido's age and save it to the database.</span><span class="pln">
+fido </span><span class="pun">=</span><span class="pln"> </span><span class="typ">Dog</span><span class="pun">(</span><span class="pln">
+  id</span><span class="pun">:</span><span class="pln"> fido</span><span class="pun">.</span><span class="pln">id</span><span class="pun">,</span><span class="pln">
+  name</span><span class="pun">:</span><span class="pln"> fido</span><span class="pun">.</span><span class="pln">name</span><span class="pun">,</span><span class="pln">
+  age</span><span class="pun">:</span><span class="pln"> fido</span><span class="pun">.</span><span class="pln">age </span><span class="pun">+</span><span class="pln"> </span><span class="lit">7</span><span class="pun">,</span><span class="pln">
+</span><span class="pun">);</span><span class="pln">
+</span><span class="kwd">await</span><span class="pln"> updateDog</span><span class="pun">(</span><span class="pln">fido</span><span class="pun">);</span><span class="pln">
+
+</span><span class="com">// Print the updated results.</span><span class="pln">
+print</span><span class="pun">(</span><span class="kwd">await</span><span class="pln"> dogs</span><span class="pun">());</span><span class="pln"> </span><span class="com">// Prints Fido with age 42.</span></pre></div></div>
+</div>
+
+<aside class="alert alert-warning" role="alert">
+  <p><i class="" data-fa-i2svg=""><svg class="svg-inline--fa fa-exclamation-triangle fa-w-18" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="exclamation-triangle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"></path></svg></i> <strong>Warning:</strong>
+  Always use <code class="language-plaintext highlighter-rouge">whereArgs</code> to pass arguments to a <code class="language-plaintext highlighter-rouge">where</code> statement.
+  This helps safeguard against SQL injection attacks.</p>
+
+  <p>Do not use string interpolation, such as <code class="language-plaintext highlighter-rouge">where: "id = ${dog.id}"</code>!</p>
+</aside>
+
+<h2 id="8-delete-a-dog-from-the-database">
+<a class="anchor" href="https://docs.flutter.dev/cookbook/persistence/sqlite#8-delete-a-dog-from-the-database" aria-hidden="true"><span class="octicon octicon-link"></span></a>8. Delete a <code class="language-plaintext highlighter-rouge">Dog</code> from the database</h2>
+
+<p>In addition to inserting and updating information about Dogs,
+you can also remove dogs from the database. To delete data,
+use the <a href="https://pub.dev/documentation/sqflite_common/latest/sqlite_api/DatabaseExecutor/delete.html"><code class="language-plaintext highlighter-rouge">delete()</code></a> method from the <code class="language-plaintext highlighter-rouge">sqflite</code> library.</p>
+
+<p>In this section, create a function that takes an id and deletes the dog with
+a matching id from the database. To make this work, you must provide a <code class="language-plaintext highlighter-rouge">where</code>
+clause to limit the records being deleted.</p>
+
+<div class="code-excerpt">
+<div class="code-excerpt__code"><button class="code-excerpt__copy-btn" type="button" data-toggle="tooltip" title="" data-clipboard-target="#code-excerpt-12" data-original-title="Copy code">  <i class="material-icons">content_copy</i></button><div id="code-excerpt-12"><pre class="prettyprint lang-dart prettyprinted" style=""><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">void</span><span class="pun">&gt;</span><span class="pln"> deleteDog</span><span class="pun">(</span><span class="typ">int</span><span class="pln"> id</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">async</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="com">// Get a reference to the database.</span><span class="pln">
+  </span><span class="kwd">final</span><span class="pln"> db </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">await</span><span class="pln"> database</span><span class="pun">;</span><span class="pln">
+
+  </span><span class="com">// Remove the Dog from the database.</span><span class="pln">
+  </span><span class="kwd">await</span><span class="pln"> db</span><span class="pun">.</span><span class="pln">delete</span><span class="pun">(</span><span class="pln">
+    </span><span class="str">'dogs'</span><span class="pun">,</span><span class="pln">
+    </span><span class="com">// Use a `where` clause to delete a specific dog.</span><span class="pln">
+    where</span><span class="pun">:</span><span class="pln"> </span><span class="str">'id = ?'</span><span class="pun">,</span><span class="pln">
+    </span><span class="com">// Pass the Dog's id as a whereArg to prevent SQL injection.</span><span class="pln">
+    whereArgs</span><span class="pun">:</span><span class="pln"> </span><span class="pun">[</span><span class="pln">id</span><span class="pun">],</span><span class="pln">
+  </span><span class="pun">);</span><span class="pln">
+</span><span class="pun">}</span></pre></div></div>
+</div>
+
+<h2 id="example">
+<a class="anchor" href="https://docs.flutter.dev/cookbook/persistence/sqlite#example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example</h2>
+
+<p>To run the example:</p>
+
+<ol>
+  <li>Create a new Flutter project.</li>
+  <li>Add the <code class="language-plaintext highlighter-rouge">sqflite</code> and <code class="language-plaintext highlighter-rouge">path</code> packages to your <code class="language-plaintext highlighter-rouge">pubspec.yaml</code>.</li>
+  <li>Paste the following code into a new file called <code class="language-plaintext highlighter-rouge">lib/db_test.dart</code>.</li>
+  <li>Run the code with <code class="language-plaintext highlighter-rouge">flutter run lib/db_test.dart</code>.</li>
+</ol>
+
+<div class="code-excerpt">
+<div class="code-excerpt__code"><button class="code-excerpt__copy-btn" type="button" data-toggle="tooltip" title="" data-clipboard-target="#code-excerpt-13" data-original-title="Copy code">  <i class="material-icons">content_copy</i></button><div id="code-excerpt-13"><pre class="prettyprint lang-dart prettyprinted" style=""><span class="kwd">import</span><span class="pln"> </span><span class="str">'dart:async'</span><span class="pun">;</span><span class="pln">
+
+</span><span class="kwd">import</span><span class="pln"> </span><span class="str">'package:path/path.dart'</span><span class="pun">;</span><span class="pln">
+</span><span class="kwd">import</span><span class="pln"> </span><span class="str">'package:sqflite/sqflite.dart'</span><span class="pun">;</span><span class="pln">
+</span><span class="kwd">import</span><span class="pln"> </span><span class="str">'package:flutter/widgets.dart'</span><span class="pun">;</span><span class="pln">
+
+</span><span class="typ">void</span><span class="pln"> main</span><span class="pun">()</span><span class="pln"> </span><span class="kwd">async</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="com">// Avoid errors caused by flutter upgrade.</span><span class="pln">
+  </span><span class="com">// Importing 'package:flutter/widgets.dart' is required.</span><span class="pln">
+  </span><span class="typ">WidgetsFlutterBinding</span><span class="pun">.</span><span class="pln">ensureInitialized</span><span class="pun">();</span><span class="pln">
+  </span><span class="com">// Open the database and store the reference.</span><span class="pln">
+  </span><span class="kwd">final</span><span class="pln"> database </span><span class="pun">=</span><span class="pln"> openDatabase</span><span class="pun">(</span><span class="pln">
+    </span><span class="com">// Set the path to the database. Note: Using the `join` function from the</span><span class="pln">
+    </span><span class="com">// `path` package is best practice to ensure the path is correctly</span><span class="pln">
+    </span><span class="com">// constructed for each platform.</span><span class="pln">
+    join</span><span class="pun">(</span><span class="kwd">await</span><span class="pln"> getDatabasesPath</span><span class="pun">(),</span><span class="pln"> </span><span class="str">'doggie_database.db'</span><span class="pun">),</span><span class="pln">
+    </span><span class="com">// When the database is first created, create a table to store dogs.</span><span class="pln">
+    onCreate</span><span class="pun">:</span><span class="pln"> </span><span class="pun">(</span><span class="pln">db</span><span class="pun">,</span><span class="pln"> version</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+      </span><span class="com">// Run the CREATE TABLE statement on the database.</span><span class="pln">
+      </span><span class="kwd">return</span><span class="pln"> db</span><span class="pun">.</span><span class="pln">execute</span><span class="pun">(</span><span class="pln">
+        </span><span class="str">'CREATE TABLE dogs(id INTEGER PRIMARY KEY, name TEXT, age INTEGER)'</span><span class="pun">,</span><span class="pln">
+      </span><span class="pun">);</span><span class="pln">
+    </span><span class="pun">},</span><span class="pln">
+    </span><span class="com">// Set the version. This executes the onCreate function and provides a</span><span class="pln">
+    </span><span class="com">// path to perform database upgrades and downgrades.</span><span class="pln">
+    version</span><span class="pun">:</span><span class="pln"> </span><span class="lit">1</span><span class="pun">,</span><span class="pln">
+  </span><span class="pun">);</span><span class="pln">
+
+  </span><span class="com">// Define a function that inserts dogs into the database</span><span class="pln">
+  </span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">void</span><span class="pun">&gt;</span><span class="pln"> insertDog</span><span class="pun">(</span><span class="typ">Dog</span><span class="pln"> dog</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">async</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="com">// Get a reference to the database.</span><span class="pln">
+    </span><span class="kwd">final</span><span class="pln"> db </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">await</span><span class="pln"> database</span><span class="pun">;</span><span class="pln">
+
+    </span><span class="com">// Insert the Dog into the correct table. You might also specify the</span><span class="pln">
+    </span><span class="com">// `conflictAlgorithm` to use in case the same dog is inserted twice.</span><span class="pln">
+    </span><span class="com">//</span><span class="pln">
+    </span><span class="com">// In this case, replace any previous data.</span><span class="pln">
+    </span><span class="kwd">await</span><span class="pln"> db</span><span class="pun">.</span><span class="pln">insert</span><span class="pun">(</span><span class="pln">
+      </span><span class="str">'dogs'</span><span class="pun">,</span><span class="pln">
+      dog</span><span class="pun">.</span><span class="pln">toMap</span><span class="pun">(),</span><span class="pln">
+      conflictAlgorithm</span><span class="pun">:</span><span class="pln"> </span><span class="typ">ConflictAlgorithm</span><span class="pun">.</span><span class="pln">replace</span><span class="pun">,</span><span class="pln">
+    </span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+
+  </span><span class="com">// A method that retrieves all the dogs from the dogs table.</span><span class="pln">
+  </span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">List</span><span class="pun">&lt;</span><span class="typ">Dog</span><span class="pun">&gt;&gt;</span><span class="pln"> dogs</span><span class="pun">()</span><span class="pln"> </span><span class="kwd">async</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="com">// Get a reference to the database.</span><span class="pln">
+    </span><span class="kwd">final</span><span class="pln"> db </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">await</span><span class="pln"> database</span><span class="pun">;</span><span class="pln">
+
+    </span><span class="com">// Query the table for all The Dogs.</span><span class="pln">
+    </span><span class="kwd">final</span><span class="pln"> </span><span class="typ">List</span><span class="pun">&lt;</span><span class="typ">Map</span><span class="pun">&lt;</span><span class="typ">String</span><span class="pun">,</span><span class="pln"> </span><span class="typ">dynamic</span><span class="pun">&gt;&gt;</span><span class="pln"> maps </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">await</span><span class="pln"> db</span><span class="pun">.</span><span class="pln">query</span><span class="pun">(</span><span class="str">'dogs'</span><span class="pun">);</span><span class="pln">
+
+    </span><span class="com">// Convert the List&lt;Map&lt;String, dynamic&gt; into a List&lt;Dog&gt;.</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> </span><span class="typ">List</span><span class="pun">.</span><span class="pln">generate</span><span class="pun">(</span><span class="pln">maps</span><span class="pun">.</span><span class="pln">length</span><span class="pun">,</span><span class="pln"> </span><span class="pun">(</span><span class="pln">i</span><span class="pun">)</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+      </span><span class="kwd">return</span><span class="pln"> </span><span class="typ">Dog</span><span class="pun">(</span><span class="pln">
+        id</span><span class="pun">:</span><span class="pln"> maps</span><span class="pun">[</span><span class="pln">i</span><span class="pun">][</span><span class="str">'id'</span><span class="pun">],</span><span class="pln">
+        name</span><span class="pun">:</span><span class="pln"> maps</span><span class="pun">[</span><span class="pln">i</span><span class="pun">][</span><span class="str">'name'</span><span class="pun">],</span><span class="pln">
+        age</span><span class="pun">:</span><span class="pln"> maps</span><span class="pun">[</span><span class="pln">i</span><span class="pun">][</span><span class="str">'age'</span><span class="pun">],</span><span class="pln">
+      </span><span class="pun">);</span><span class="pln">
+    </span><span class="pun">});</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+
+  </span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">void</span><span class="pun">&gt;</span><span class="pln"> updateDog</span><span class="pun">(</span><span class="typ">Dog</span><span class="pln"> dog</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">async</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="com">// Get a reference to the database.</span><span class="pln">
+    </span><span class="kwd">final</span><span class="pln"> db </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">await</span><span class="pln"> database</span><span class="pun">;</span><span class="pln">
+
+    </span><span class="com">// Update the given Dog.</span><span class="pln">
+    </span><span class="kwd">await</span><span class="pln"> db</span><span class="pun">.</span><span class="pln">update</span><span class="pun">(</span><span class="pln">
+      </span><span class="str">'dogs'</span><span class="pun">,</span><span class="pln">
+      dog</span><span class="pun">.</span><span class="pln">toMap</span><span class="pun">(),</span><span class="pln">
+      </span><span class="com">// Ensure that the Dog has a matching id.</span><span class="pln">
+      where</span><span class="pun">:</span><span class="pln"> </span><span class="str">'id = ?'</span><span class="pun">,</span><span class="pln">
+      </span><span class="com">// Pass the Dog's id as a whereArg to prevent SQL injection.</span><span class="pln">
+      whereArgs</span><span class="pun">:</span><span class="pln"> </span><span class="pun">[</span><span class="pln">dog</span><span class="pun">.</span><span class="pln">id</span><span class="pun">],</span><span class="pln">
+    </span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+
+  </span><span class="typ">Future</span><span class="pun">&lt;</span><span class="typ">void</span><span class="pun">&gt;</span><span class="pln"> deleteDog</span><span class="pun">(</span><span class="typ">int</span><span class="pln"> id</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">async</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="com">// Get a reference to the database.</span><span class="pln">
+    </span><span class="kwd">final</span><span class="pln"> db </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">await</span><span class="pln"> database</span><span class="pun">;</span><span class="pln">
+
+    </span><span class="com">// Remove the Dog from the database.</span><span class="pln">
+    </span><span class="kwd">await</span><span class="pln"> db</span><span class="pun">.</span><span class="pln">delete</span><span class="pun">(</span><span class="pln">
+      </span><span class="str">'dogs'</span><span class="pun">,</span><span class="pln">
+      </span><span class="com">// Use a `where` clause to delete a specific dog.</span><span class="pln">
+      where</span><span class="pun">:</span><span class="pln"> </span><span class="str">'id = ?'</span><span class="pun">,</span><span class="pln">
+      </span><span class="com">// Pass the Dog's id as a whereArg to prevent SQL injection.</span><span class="pln">
+      whereArgs</span><span class="pun">:</span><span class="pln"> </span><span class="pun">[</span><span class="pln">id</span><span class="pun">],</span><span class="pln">
+    </span><span class="pun">);</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+
+  </span><span class="com">// Create a Dog and add it to the dogs table</span><span class="pln">
+  </span><span class="kwd">var</span><span class="pln"> fido </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">const</span><span class="pln"> </span><span class="typ">Dog</span><span class="pun">(</span><span class="pln">
+    id</span><span class="pun">:</span><span class="pln"> </span><span class="lit">0</span><span class="pun">,</span><span class="pln">
+    name</span><span class="pun">:</span><span class="pln"> </span><span class="str">'Fido'</span><span class="pun">,</span><span class="pln">
+    age</span><span class="pun">:</span><span class="pln"> </span><span class="lit">35</span><span class="pun">,</span><span class="pln">
+  </span><span class="pun">);</span><span class="pln">
+
+  </span><span class="kwd">await</span><span class="pln"> insertDog</span><span class="pun">(</span><span class="pln">fido</span><span class="pun">);</span><span class="pln">
+
+  </span><span class="com">// Now, use the method above to retrieve all the dogs.</span><span class="pln">
+  print</span><span class="pun">(</span><span class="kwd">await</span><span class="pln"> dogs</span><span class="pun">());</span><span class="pln"> </span><span class="com">// Prints a list that include Fido.</span><span class="pln">
+
+  </span><span class="com">// Update Fido's age and save it to the database.</span><span class="pln">
+  fido </span><span class="pun">=</span><span class="pln"> </span><span class="typ">Dog</span><span class="pun">(</span><span class="pln">
+    id</span><span class="pun">:</span><span class="pln"> fido</span><span class="pun">.</span><span class="pln">id</span><span class="pun">,</span><span class="pln">
+    name</span><span class="pun">:</span><span class="pln"> fido</span><span class="pun">.</span><span class="pln">name</span><span class="pun">,</span><span class="pln">
+    age</span><span class="pun">:</span><span class="pln"> fido</span><span class="pun">.</span><span class="pln">age </span><span class="pun">+</span><span class="pln"> </span><span class="lit">7</span><span class="pun">,</span><span class="pln">
+  </span><span class="pun">);</span><span class="pln">
+  </span><span class="kwd">await</span><span class="pln"> updateDog</span><span class="pun">(</span><span class="pln">fido</span><span class="pun">);</span><span class="pln">
+
+  </span><span class="com">// Print the updated results.</span><span class="pln">
+  print</span><span class="pun">(</span><span class="kwd">await</span><span class="pln"> dogs</span><span class="pun">());</span><span class="pln"> </span><span class="com">// Prints Fido with age 42.</span><span class="pln">
+
+  </span><span class="com">// Delete Fido from the database.</span><span class="pln">
+  </span><span class="kwd">await</span><span class="pln"> deleteDog</span><span class="pun">(</span><span class="pln">fido</span><span class="pun">.</span><span class="pln">id</span><span class="pun">);</span><span class="pln">
+
+  </span><span class="com">// Print the list of dogs (empty).</span><span class="pln">
+  print</span><span class="pun">(</span><span class="kwd">await</span><span class="pln"> dogs</span><span class="pun">());</span><span class="pln">
+</span><span class="pun">}</span><span class="pln">
+
+</span><span class="kwd">class</span><span class="pln"> </span><span class="typ">Dog</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+  </span><span class="kwd">final</span><span class="pln"> </span><span class="typ">int</span><span class="pln"> id</span><span class="pun">;</span><span class="pln">
+  </span><span class="kwd">final</span><span class="pln"> </span><span class="typ">String</span><span class="pln"> name</span><span class="pun">;</span><span class="pln">
+  </span><span class="kwd">final</span><span class="pln"> </span><span class="typ">int</span><span class="pln"> age</span><span class="pun">;</span><span class="pln">
+
+  </span><span class="kwd">const</span><span class="pln"> </span><span class="typ">Dog</span><span class="pun">({</span><span class="pln">
+    </span><span class="kwd">required</span><span class="pln"> </span><span class="kwd">this</span><span class="pun">.</span><span class="pln">id</span><span class="pun">,</span><span class="pln">
+    </span><span class="kwd">required</span><span class="pln"> </span><span class="kwd">this</span><span class="pun">.</span><span class="pln">name</span><span class="pun">,</span><span class="pln">
+    </span><span class="kwd">required</span><span class="pln"> </span><span class="kwd">this</span><span class="pun">.</span><span class="pln">age</span><span class="pun">,</span><span class="pln">
+  </span><span class="pun">});</span><span class="pln">
+
+  </span><span class="com">// Convert a Dog into a Map. The keys must correspond to the names of the</span><span class="pln">
+  </span><span class="com">// columns in the database.</span><span class="pln">
+  </span><span class="typ">Map</span><span class="pun">&lt;</span><span class="typ">String</span><span class="pun">,</span><span class="pln"> </span><span class="typ">dynamic</span><span class="pun">&gt;</span><span class="pln"> toMap</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+      </span><span class="str">'id'</span><span class="pun">:</span><span class="pln"> id</span><span class="pun">,</span><span class="pln">
+      </span><span class="str">'name'</span><span class="pun">:</span><span class="pln"> name</span><span class="pun">,</span><span class="pln">
+      </span><span class="str">'age'</span><span class="pun">:</span><span class="pln"> age</span><span class="pun">,</span><span class="pln">
+    </span><span class="pun">};</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+
+  </span><span class="com">// Implement toString to make it easier to see information about</span><span class="pln">
+  </span><span class="com">// each dog when using the print statement.</span><span class="pln">
+  @override
+  </span><span class="typ">String</span><span class="pln"> toString</span><span class="pun">()</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> </span><span class="str">'Dog{id: $id, name: $name, age: $age}'</span><span class="pun">;</span><span class="pln">
+  </span><span class="pun">}</span><span class="pln">
+</span><span class="pun">}</span></pre></div></div>
+</div>
+
+
+
+        <nav class="site-nextprev-nav">
+    <ul>
+      <li class="prev">
+          <a href="https://docs.flutter.dev/cookbook/networking/web-sockets">Work with WebSockets</a>
+      </li>
+      <li class="next">
+          <a href="https://docs.flutter.dev/cookbook/persistence/reading-writing-files">Read and write files</a>
+      </li>
+      </ul>
+  </nav>
+
+
+      </div>
+    </main>
+  </div>
+</div>
+
+
+    
+      <footer class="site-footer">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 site-footer__wrapper">
+        <div class="site-footer__logo">
+          <img src="./Persist data with SQLite _ Flutter_files/flutter-mono-81x100.png" alt="Flutter Logo" width="81" height="100">
+        </div>
+        <div class="site-footer__content">
+          <ul class="site-footer__link-list">
+              <li><a href="https://groups.google.com/forum/#!forum/flutter-dev">flutter-dev@</a></li>
+              <li><a href="https://docs.flutter.dev/tos">terms</a></li>
+              <li><a href="https://docs.flutter.dev/brand">brand usage</a></li>
+              <li><a href="https://docs.flutter.dev/security">security</a></li>
+              <li><a href="https://www.google.com/intl/en/policies/privacy">privacy</a></li>
+              <li><a href="https://esflutter.dev/">español</a></li>
+              <li><a href="https://flutter.cn/" class="text-nowrap">社区中文资源</a></li> 
+              <li><a href="https://flutter-ko.dev/" class="text-nowrap">한국어</a></li>
+              <li><a href="https://blog.google/inside-google/company-announcements/standing-with-black-community">We stand in solidarity with the Black community. Black Lives Matter.</a></li>
+          </ul>
+          <p class="licenses">
+            Except as otherwise noted,
+            this work is licensed under a
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0">Creative
+            Commons Attribution 4.0 International License</a>,
+            and code samples are licensed under the BSD License.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+    
+    <script src="./Persist data with SQLite _ Flutter_files/jquery.min.js.download"></script>
+    <script src="./Persist data with SQLite _ Flutter_files/popper.min.js.download"></script>
+    <script src="./Persist data with SQLite _ Flutter_files/bootstrap.min.js.download"></script>
+    <script src="./Persist data with SQLite _ Flutter_files/clipboard.min.js.download"></script>
+    
+    <script src="./Persist data with SQLite _ Flutter_files/prettify.js.download"></script>
+    <script src="./Persist data with SQLite _ Flutter_files/lang-css.js.download"></script>
+    <script src="./Persist data with SQLite _ Flutter_files/lang-dart.js.download"></script>
+    <script src="./Persist data with SQLite _ Flutter_files/lang-yaml.js.download"></script>
+    <script src="./Persist data with SQLite _ Flutter_files/tabs.js.download"></script>
+    <script src="./Persist data with SQLite _ Flutter_files/archive.js.download"></script>
+    <script src="./Persist data with SQLite _ Flutter_files/main.js.download"></script>
+    
+    
+
+  
+
+</body></html>
